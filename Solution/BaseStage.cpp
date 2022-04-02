@@ -235,7 +235,7 @@ void BaseStage::updateTime() {
 		// --------------------
 		// êiÇﬂÇ»Ç¢ìπÇï«Ç…Ç∑ÇÈ
 		// --------------------
-		constexpr auto wallCol = XMFLOAT4(0.25f, 0.25f, 0.25f, 1);
+		constexpr auto wallCol = XMFLOAT4(0.75f, 0.75f, 0.75f, 1);
 		constexpr auto defColor = XMFLOAT4(1, 1, 1, 1);
 		for (UINT y = 0; y < mapData.size(); y++) {
 			for (UINT x = 0; x < mapData[y].size(); x++) {
@@ -243,30 +243,34 @@ void BaseStage::updateTime() {
 				case MAP_NUM::FRONT_ROAD:
 					if (frontBeatFlag) {
 						mapObj[y][x].position.y = floorPosY;
-						mapObj[y][x].texNum = BOX_TEXNUM::FRONT;
+						//mapObj[y][x].texNum = BOX_TEXNUM::FRONT;
 						mapObj[y][x].color = defColor;
 					} else {
 						mapObj[y][x].position.y = floorPosY + obj3dScale;
-						mapObj[y][x].texNum = BOX_TEXNUM::WALL;
+						//mapObj[y][x].texNum = BOX_TEXNUM::WALL;
 						mapObj[y][x].color = wallCol;
 					}
 					break;
 				case MAP_NUM::BACK_ROAD:
 					if (frontBeatFlag) {
 						mapObj[y][x].position.y = floorPosY + obj3dScale;
-						mapObj[y][x].texNum = BOX_TEXNUM::WALL;
+						//mapObj[y][x].texNum = BOX_TEXNUM::WALL;
 						mapObj[y][x].color = wallCol;
 					} else {
 						mapObj[y][x].position.y = floorPosY;
-						mapObj[y][x].texNum = BOX_TEXNUM::BACK;
+						//mapObj[y][x].texNum = BOX_TEXNUM::BACK;
 						mapObj[y][x].color = defColor;
 					}
 					break;
 				}
 			}
 		}
-		if (frontBeatFlag) playerObj->color = defColor;
-		else playerObj->color = XMFLOAT4(0.5, 0.5, 0.5, 1);
+		if (frontBeatFlag) {
+			playerObj->color = XMFLOAT4(0, 1, 0, 1);
+
+		} else {
+			playerObj->color = XMFLOAT4(1, 0, 1, 1);
+		}
 
 
 		// --------------------
@@ -522,6 +526,7 @@ void BaseStage::init() {
 	playerObj->rotation.y += 90.f;
 	playerObj->rotation.z += 90.f;
 	//playerObj->scale = XMFLOAT3(0.5f, 0.5f, 0.5f);
+	playerObj->color = XMFLOAT4(0, 1, 0, 1);
 
 	easeStartPos = playerObj->position;
 	easeEndPos = playerObj->position;
