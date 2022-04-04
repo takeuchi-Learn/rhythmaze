@@ -237,47 +237,47 @@ void BaseStage::updateTime() {
 		// --------------------
 		constexpr auto wallCol = XMFLOAT4(0.25f, 0.25f, 0.25f, 1);
 		constexpr auto defColor = XMFLOAT4(1, 1, 1, 1);
-		for (UINT y = 0; y < mapData.size(); y++) {
-			for (UINT x = 0; x < mapData[y].size(); x++) {
-				switch (mapData[y][x]) {
-				case MAP_NUM::FRONT_ROAD:
-					if (frontBeatFlag) {
-						mapObj[y][x].position.y = floorPosY;
-						mapObj[y][x].texNum = BOX_TEXNUM::FRONT;
-						mapObj[y][x].color = defColor;
-					} else {
-						mapObj[y][x].position.y = floorPosY + obj3dScale;
-						mapObj[y][x].texNum = BOX_TEXNUM::WALL;
-						mapObj[y][x].color = wallCol;
-					}
-					break;
-				case MAP_NUM::BACK_ROAD:
-					if (frontBeatFlag) {
-						mapObj[y][x].position.y = floorPosY + obj3dScale;
-						mapObj[y][x].texNum = BOX_TEXNUM::WALL;
-						mapObj[y][x].color = wallCol;
-					} else {
-						mapObj[y][x].position.y = floorPosY;
-						mapObj[y][x].texNum = BOX_TEXNUM::BACK;
-						mapObj[y][x].color = defColor;
-					}
-					break;
-				}
-			}
-		}
-		if (frontBeatFlag) playerObj->color = defColor;
-		else playerObj->color = XMFLOAT4(0.5, 0.5, 0.5, 1);
+		//for (UINT y = 0; y < mapData.size(); y++) {
+		//	for (UINT x = 0; x < mapData[y].size(); x++) {
+		//		switch (mapData[y][x]) {
+		//		case MAP_NUM::FRONT_ROAD:
+		//			if (frontBeatFlag) {
+		//				mapObj[y][x].position.y = floorPosY;
+		//				mapObj[y][x].texNum = BOX_TEXNUM::FRONT;
+		//				mapObj[y][x].color = defColor;
+		//			} else {
+		//				mapObj[y][x].position.y = floorPosY + obj3dScale;
+		//				mapObj[y][x].texNum = BOX_TEXNUM::WALL;
+		//				mapObj[y][x].color = wallCol;
+		//			}
+		//			break;
+		//		case MAP_NUM::BACK_ROAD:
+		//			if (frontBeatFlag) {
+		//				mapObj[y][x].position.y = floorPosY + obj3dScale;
+		//				mapObj[y][x].texNum = BOX_TEXNUM::WALL;
+		//				mapObj[y][x].color = wallCol;
+		//			} else {
+		//				mapObj[y][x].position.y = floorPosY;
+		//				mapObj[y][x].texNum = BOX_TEXNUM::BACK;
+		//				mapObj[y][x].color = defColor;
+		//			}
+		//			break;
+		//		}
+		//	}
+		//}
+		//if (frontBeatFlag) playerObj->color = defColor;
+		//else playerObj->color = XMFLOAT4(0.5, 0.5, 0.5, 1);
 
 
-		// --------------------
-		// 今プレイヤーがいるところは壁にしない
-		// --------------------
-		mapObj[playerMapPos.y][playerMapPos.x].position.y = floorPosY;
+		//// --------------------
+		//// 今プレイヤーがいるところは壁にしない
+		//// --------------------
+		//mapObj[playerMapPos.y][playerMapPos.x].position.y = floorPosY;
 
-		mapObj[playerMapPos.y][playerMapPos.x].color = defColor;
+		//mapObj[playerMapPos.y][playerMapPos.x].color = defColor;
 
-		if (mapData[playerMapPos.y][playerMapPos.x] == MAP_NUM::FRONT_ROAD) mapObj[playerMapPos.y][playerMapPos.x].texNum = BOX_TEXNUM::FRONT;
-		else mapObj[playerMapPos.y][playerMapPos.x].texNum = BOX_TEXNUM::BACK;
+		//if (mapData[playerMapPos.y][playerMapPos.x] == MAP_NUM::FRONT_ROAD) mapObj[playerMapPos.y][playerMapPos.x].texNum = BOX_TEXNUM::FRONT;
+		//else mapObj[playerMapPos.y][playerMapPos.x].texNum = BOX_TEXNUM::BACK;
 	}
 
 	const float beatRaito = (nowTime - beatChangeTime) / (float)oneBeatTime;	// 今の拍の進行度[0~1]
@@ -286,14 +286,20 @@ void BaseStage::updateTime() {
 	// この範囲内なら移動はできない
 	//movableFlag = !(movableRaitoMin < beatRaito&& beatRaito < movableRaitoMax);
 
-	debugText.Print(spriteCommon, "X         X", 0, debugText.fontHeight,
-					1.f, XMFLOAT4(1, 1, 1, 0.5f));
+	const auto wid = debugText.fontWidth * 11.f / 2.f;
+
+	debugText.Print(spriteCommon, "X         X",
+					WinAPI::window_width / 2 - wid,
+					debugText.fontHeight + WinAPI::window_height / 2,
+					1.f,
+					frontBeatFlag ? XMFLOAT4(0, 1, 0, 0.5f) : XMFLOAT4(1, 0.5f, 1, 0.5f));
 
 	debugText.Print(spriteCommon,
 					"X",
-					beatRaito * 10.f * debugText.fontWidth, debugText.fontHeight,
+					beatRaito * 10.f * debugText.fontWidth + WinAPI::window_width / 2 - wid,
+					debugText.fontHeight + WinAPI::window_height / 2,
 					1.f,
-					XMFLOAT4(1, 1, 1, 1));
+					frontBeatFlag ? XMFLOAT4(0, 1, 0, 1) : XMFLOAT4(1, 0.5f, 1, 1));
 }
 
 void BaseStage::createParticle(const DirectX::XMFLOAT3 pos,
