@@ -235,7 +235,7 @@ void BaseStage::updateTime() {
 		// --------------------
 		// 進めない道を壁にする
 		// --------------------
-		constexpr auto wallCol = XMFLOAT4(0.3f, 0.3f, 0.3f, 1);
+		constexpr auto wallCol = XMFLOAT4(0.4f, 0.4f, 0.4f, 1);
 		constexpr auto defColor = XMFLOAT4(1, 1, 1, 1);
 		constexpr auto frontColor = XMFLOAT4(0, 1, 0, 1);
 		constexpr auto backColor = XMFLOAT4(1, 0.5f, 1, 1);
@@ -244,22 +244,22 @@ void BaseStage::updateTime() {
 				switch (mapData[y][x]) {
 				case MAP_NUM::FRONT_ROAD:
 					if (frontBeatFlag) {
-						//mapObj[y][x].position.y = floorPosY;
+						mapObj[y][x].position.y = floorPosY;
 						mapObj[y][x].texNum = BOX_TEXNUM::FRONT;
 						mapObj[y][x].color = defColor;
 					} else {
-						//mapObj[y][x].position.y = floorPosY + obj3dScale;
+						mapObj[y][x].position.y = floorPosY + obj3dScale;
 						mapObj[y][x].texNum = BOX_TEXNUM::WALL;
 						mapObj[y][x].color = wallCol;
 					}
 					break;
 				case MAP_NUM::BACK_ROAD:
 					if (frontBeatFlag) {
-						//mapObj[y][x].position.y = floorPosY + obj3dScale;
+						mapObj[y][x].position.y = floorPosY + obj3dScale;
 						mapObj[y][x].texNum = BOX_TEXNUM::WALL;
 						mapObj[y][x].color = wallCol;
 					} else {
-						//mapObj[y][x].position.y = floorPosY;
+						mapObj[y][x].position.y = floorPosY;
 						mapObj[y][x].texNum = BOX_TEXNUM::BACK;
 						mapObj[y][x].color = defColor;
 					}
@@ -279,12 +279,12 @@ void BaseStage::updateTime() {
 		// --------------------
 		// 今プレイヤーがいるところは壁にしない
 		// --------------------
-		/*mapObj[playerMapPos.y][playerMapPos.x].position.y = floorPosY;
+		mapObj[playerMapPos.y][playerMapPos.x].position.y = floorPosY;
 
 		mapObj[playerMapPos.y][playerMapPos.x].color = defColor;
 
 		if (mapData[playerMapPos.y][playerMapPos.x] == MAP_NUM::FRONT_ROAD) mapObj[playerMapPos.y][playerMapPos.x].texNum = BOX_TEXNUM::FRONT;
-		else mapObj[playerMapPos.y][playerMapPos.x].texNum = BOX_TEXNUM::BACK;*/
+		else mapObj[playerMapPos.y][playerMapPos.x].texNum = BOX_TEXNUM::BACK;
 	}
 
 	const float beatRaito = (nowTime - beatChangeTime) / (float)oneBeatTime;	// 今の拍の進行度[0~1]
@@ -672,12 +672,12 @@ void BaseStage::drawObj3d() {
 			mapObj[y][x].drawWithUpdate(camera->getViewMatrix(), dxCom);
 		}
 	}
-	playerObj->drawWithUpdate(camera->getViewMatrix(), dxCom);
 
 	additionalDrawObj3d();
 
 	Object3d::startDraw(DirectXCommon::getInstance()->getCmdList(), backPipelineSet);
 	backObj->drawWithUpdate(camera->getViewMatrix(), dxCom);
+	playerObj->drawWithUpdate(camera->getViewMatrix(), dxCom);
 }
 
 void BaseStage::drawParticle() {

@@ -7,6 +7,7 @@ float4 main(VSOutput input) : SV_TARGET
 {
 	float4 texcolor = float4(tex.Sample(smp, input.uv));
 	float3 normalLight = normalize(light);
+	normalLight = normalize(float3(0,-1,0));
 
 	float lightPower = 0.75f;
 
