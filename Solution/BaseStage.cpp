@@ -9,6 +9,11 @@
 
 using namespace DirectX;
 
+namespace {
+	constexpr float wallColFL = 0.3f;
+	constexpr auto wallCol = XMFLOAT4(wallColFL, wallColFL, wallColFL, 1);
+}
+
 DirectX::XMFLOAT3 BaseStage::easePos(const DirectX::XMFLOAT3 startPos,
 									 const DirectX::XMFLOAT3 endPos,
 									 const float timeRaito,
@@ -235,7 +240,6 @@ void BaseStage::updateTime() {
 		// --------------------
 		// êiÇﬂÇ»Ç¢ìπÇï«Ç…Ç∑ÇÈ
 		// --------------------
-		constexpr auto wallCol = XMFLOAT4(0.4f, 0.4f, 0.4f, 1);
 		constexpr auto defColor = XMFLOAT4(1, 1, 1, 1);
 		constexpr auto frontColor = XMFLOAT4(0, 1, 0, 1);
 		constexpr auto backColor = XMFLOAT4(1, 0.5f, 1, 1);
@@ -492,7 +496,6 @@ void BaseStage::init() {
 
 #pragma region ñ¿òH
 
-	constexpr XMFLOAT4 wallCol = XMFLOAT4(0.5f, 0.3f, 0, 1);
 	constexpr XMFLOAT4 backRoadCol = XMFLOAT4(1, 0, 1, 1);
 	constexpr XMFLOAT4 frontRoadCol = XMFLOAT4(0, 1, 1, 1);
 	constexpr XMFLOAT4 goalCol = XMFLOAT4(1, 0, 0, 1);
@@ -513,7 +516,7 @@ void BaseStage::init() {
 			case MAP_NUM::WALL:
 				mapObj[y][x].position.y += obj3dScale;
 				mapObj[y][x].texNum = BOX_TEXNUM::WALL;
-				mapObj[y][x].color = XMFLOAT4(0.25f, 0.25f, 0.25f, 1);
+				mapObj[y][x].color = wallCol;
 				break;
 			case MAP_NUM::FRONT_ROAD:
 				mapObj[y][x].texNum = BOX_TEXNUM::FRONT;
